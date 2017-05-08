@@ -8,7 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 //该注解能激活Eureka中的DiscoveryClient实现
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(basePackages={"com.pan.idService.web"})
+// 配置扫描路径
+@ComponentScan(basePackages = { "com.pan.idService.web" })
 public class IdServiceApplication {
 
 	public static void main(String[] args) {

@@ -18,6 +18,11 @@ public class IdController {
 	@Autowired
 	private DiscoveryClient client;
 
+	/**
+	 * uuid生成器
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/uuid", method = RequestMethod.GET)
 	public String getUUId() {
 		ServiceInstance instance = client.getLocalServiceInstance();
