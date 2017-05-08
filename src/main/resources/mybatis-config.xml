@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.pan.idService.bo.model.Sequence" alias="Sequence" />
+		<typeAlias type="com.pan.idService.bo.model.condition.SequenceCondition"
+			alias="SequenceCondition" />
+	</typeAliases>
+
+	<!-- 解决枚举映射问题 -->
+	<!-- <typeHandlers> <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" 
+		javaType="com.pan.book.dao.bo.enums.PraiseStatus" /> </typeHandlers> -->
+	<mappers>
+		<mapper resource="META-INF/spring/domain/mybatis/Sequence.mapper.xml" />
+	</mappers>
+</configuration>

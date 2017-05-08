@@ -14,6 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<pion.version>0.0.1-SNAPSHOT</pion.version>
 	</properties>
 
 	<dependencies>
@@ -28,6 +29,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.pan</groupId>
+			<artifactId>pion-orm</artifactId>
+			<version>${pion.version}</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

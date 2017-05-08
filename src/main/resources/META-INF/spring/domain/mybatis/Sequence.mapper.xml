@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pan.idService.dao.SequenceDao">
+	<resultMap type="Sequence" id="baseResultMap">
+		<result property="id" column="id" jdbcType="BIGINT" />
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP" />
+		<result property="desc" column="desc" jdbcType="VARCHAR" />
+		<result property="step" column="step" jdbcType="INTEGER" />
+		<result property="maxId" column="max_id" jdbcType="BIGINT" />
+		<result property="bizTag" column="biz_tag" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="selectSql">
+		SELECT
+		id AS id,
+		<trim prefix="" suffixOverrides=",">
+			update_time AS updateTime,
+			desc AS
+			desc,
+			step AS step,
+			max_id AS maxId,
+			biz_tag AS bizTag,
+		</trim>
+		FROM sequence
+	</sql>
+
+	<sql id="whereSql">
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="desc != null">
+				AND desc = #{desc}
+			</if>
+			<if test="step != null">
+				AND step = #{step}
+			</if>
+			<if test="maxId != null">
+				AND max_id = #{maxId}
+			</if>
+			<if test="bizTag != null">
+				AND biz_tag = #{bizTag}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="selectSqlDynamic">
+		SELECT
+		<trim prefix="" suffixOverrides=",">
+			<foreach collection="selectField" index="index" item="field"
+				separator=",">
+				${field}
+			</foreach>
+		</trim>
+		FROM sequence
+	</sql>
+
+	<sql id="whereSqlDynamic">
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="condition.id != null">
+				AND id = #{condition.id}
+			</if>
+			<if test="condition.updateTime != null">
+				AND update_time = #{condition.updateTime}
+			</if>
+			<if test="condition.desc != null">
+				AND desc = #{condition.desc}
+			</if>
+			<if test="condition.step != null">
+				AND step = #{condition.step}
+			</if>
+			<if test="condition.maxId != null">
+				AND max_id = #{condition.maxId}
+			</if>
+			<if test="condition.bizTag != null">
+				AND biz_tag = #{condition.bizTag}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="sortSql">
+		<if test="sortCount != null">
+			order by
+			<trim prefix="" suffixOverrides=",">
+				<foreach collection="sorts" index="index" item="f"
+					separator=",">
+					${f.field} ${f.sort}
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="updateSql">
+		UPDATE sequence
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="updateTime != null">
+				update_time = #{updateTime},
+			</if>
+			<if test="desc != null">
+				desc = #{desc},
+			</if>
+			<if test="step != null">
+				step = #{step},
+			</if>
+			<if test="maxId != null">
+				max_id = #{maxId},
+			</if>
+			<if test="bizTag != null">
+				biz_tag = #{bizTag},
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="deleteSql">
+		DELETE from sequence
+	</sql>
+
+	<sql id="insertColume">
+		<trim prefix="" suffixOverrides=",">
+			id,
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="desc != null">
+				desc,
+			</if>
+			<if test="step != null">
+				step,
+			</if>
+			<if test="maxId != null">
+				max_id,
+			</if>
+			<if test="bizTag != null">
+				biz_tag,
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="insertValue">
+		<trim prefix="" suffixOverrides=",">
+			#{id},
+			<if test="updateTime != null">
+				#{updateTime},
+			</if>
+			<if test="desc != null">
+				#{desc},
+			</if>
+			<if test="step != null">
+				#{step},
+			</if>
+			<if test="maxId != null">
+				#{maxId},
+			</if>
+			<if test="bizTag != null">
+				#{bizTag},
+			</if>
+		</trim>
+	</sql>
+	<sql id="batchInsertColume">
+		<trim prefix="" suffixOverrides=",">
+			id,
+			update_time,
+			desc,
+			step,
+			max_id,
+			biz_tag,
+		</trim>
+	</sql>
+	<sql id="batchInsertValue">
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			<trim prefix="" suffixOverrides=",">
+				#{item.id},
+				#{item.updateTime},
+				#{item.desc},
+				#{item.step},
+				#{item.maxId},
+				#{item.bizTag},
+			</trim>
+			)
+		</foreach>
+	</sql>
+
+	<insert id="insert" parameterType="Sequence">
+		INSERT INTO sequence(
+		<include refid="insertColume" />
+		) VALUE (
+		<include refid="insertValue" />
+		)
+	</insert>
+
+	<insert id="insertBatch">
+		INSERT INTO sequence(
+		<include refid="batchInsertColume" />
+		)VALUES
+		<include refid="batchInsertValue" />
+	</insert>
+
+	<delete id="deleteById" parameterType="String">
+		<include refid="deleteSql" />
+		WHERE id = #{id}
+	</delete>
+
+	<update id="updateById" parameterType="Sequence">
+		<include refid="updateSql" />
+		WHERE id = #{id}
+	</update>
+
+	<select id="selectById" parameterType="Long" resultType="Sequence">
+		<include refid="selectSql" />
+		where id=#{id}
+	</select>
+
+	<select id="selectList" parameterType="SequenceCondition"
+		resultType="Sequence">
+		<include refid="selectSql" />
+		<include refid="whereSql" />
+	</select>
+
+	<select id="selectCount" parameterType="SequenceCondition"
+		resultType="Integer">
+		SELECT COUNT(ID) AS count FROM sequence
+		<include refid="whereSql" />
+	</select>
+
+</mapper>
